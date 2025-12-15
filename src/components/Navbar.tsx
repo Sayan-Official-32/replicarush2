@@ -1,17 +1,34 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
 
 const navLinks = [
   { name: "Home", href: "#home" },
   { name: "Features", href: "#features" },
+  { name: "Projects", href: "#projects" },
   { name: "Testimonials", href: "#testimonials" },
-  { name: "Contact", href: "#contact" },
+  { name: "Contact", href: "#contact-form" },
 ];
 
-const Navbar = () => {
+interface NavbarProps {
+  onOpenDemo?: () => void;
+}
+
+const Navbar = ({ onOpenDemo }: NavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, signOut } = useAuth();
+
+  const handleAuthAction = async () => {
+    if (user) {
+      await signOut();
+    } else {
+      navigate("/auth");
+    }
+  };
 
   return (
     <motion.nav
@@ -57,14 +74,40 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* Auth & CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.6, duration: 0.5 }}
-            className="hidden md:block"
+            className="hidden md:flex items-center gap-3"
           >
-            <Button className="bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold px-6 py-2 rounded-full glow-button hover:scale-105 transition-transform duration-300">
+            {user && (
+              <div className="flex items-center gap-2 px-3 py-1 rounded-full glass text-sm">
+                <User className="w-4 h-4 text-primary" />
+                <span className="text-muted-foreground">{user.email?.split("@")[0]}</span>
+              </div>
+            )}
+            <Button
+              variant="outline"
+              onClick={handleAuthAction}
+              className="border-border bg-transparent text-foreground hover:bg-muted font-medium rounded-full px-4"
+            >
+              {user ? (
+                <>
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </>
+              ) : (
+                <>
+                  <LogIn className="w-4 h-4 mr-2" />
+                  Login
+                </>
+              )}
+            </Button>
+            <Button 
+              onClick={() => navigate("/auth")}
+              className="bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold px-6 py-2 rounded-full glow-button hover:scale-105 transition-transform duration-300"
+            >
               Get Started
             </Button>
           </motion.div>
@@ -103,7 +146,23 @@ const Navbar = () => {
                     {link.name}
                   </motion.a>
                 ))}
-                <Button className="bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold px-6 py-2 rounded-full mt-2">
+                {user && (
+                  <div className="flex items-center gap-2 py-2 text-sm text-muted-foreground">
+                    <User className="w-4 h-4 text-primary" />
+                    <span>{user.email}</span>
+                  </div>
+                )}
+                <Button
+                  variant="outline"
+                  onClick={handleAuthAction}
+                  className="border-border bg-transparent text-foreground hover:bg-muted font-medium rounded-full"
+                >
+                  {user ? "Logout" : "Login"}
+                </Button>
+                <Button 
+                  onClick={() => navigate("/auth")}
+                  className="bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold px-6 py-2 rounded-full mt-2"
+                >
                   Get Started
                 </Button>
               </div>

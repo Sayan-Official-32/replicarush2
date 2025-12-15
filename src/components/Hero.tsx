@@ -1,11 +1,17 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Sparkles } from "lucide-react";
+import { ArrowDown, Sparkles, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
-const Hero = () => {
+interface HeroProps {
+  onOpenDemo?: () => void;
+}
+
+const Hero = ({ onOpenDemo }: HeroProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const navigate = useNavigate();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -154,6 +160,7 @@ const Hero = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 size="lg"
+                onClick={() => navigate("/auth")}
                 className="bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold px-8 py-6 text-lg rounded-full glow-button"
               >
                 Get Started
@@ -164,8 +171,10 @@ const Hero = () => {
               <Button
                 size="lg"
                 variant="outline"
+                onClick={onOpenDemo}
                 className="border-border bg-transparent text-foreground hover:bg-muted font-semibold px-8 py-6 text-lg rounded-full"
               >
+                <Play className="mr-2 w-5 h-5" />
                 Watch Demo
               </Button>
             </motion.div>
