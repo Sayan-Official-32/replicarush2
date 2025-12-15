@@ -1,73 +1,65 @@
-# Welcome to your Lovable project
+Features
+Authentication: Email-based login and secure auth flow handled via Supabase authentication.​
 
-## Project info
+Live demo video: Embedded demo video in the README so visitors can quickly see the app in action.​
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Working “Get in touch”: Contact form validates inputs, saves messages into a contacts table in Supabase, and triggers an email notification so you can reply.​
 
-## How can I edit this code?
+Modern UI: React, Vite, Tailwind CSS, and utility classes like glass, text-gradient, and motion-based animations for sections and buttons.​
 
-There are several ways of editing your application.
+Responsive layout: Fully responsive sections (hero, features, contact) optimized for desktop and mobile.​
 
-**Use Lovable**
+Demo
+Live Demo: link
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Video Demo:
 
-Changes made via Lovable will be committed automatically to this repo.
+text
+[![Replicarush 2 Demo](public/demo/replicarush-demo.gif)](public/demo/replicarush-demo.mp4)
+Place replicarush-demo.gif and replicarush-demo.mp4 under public/demo/ and adjust the paths if needed.​
 
-**Use your preferred IDE**
+Tech Stack
+Frontend: React, TypeScript, Vite, Tailwind CSS, framer-motion, lucide-react, shadcn-style UI primitives.​
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Backend: Supabase (PostgreSQL, Auth, Edge Functions).​
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Validation: zod for schema validation of contact form data.​
 
-Follow these steps:
+Email / Contact: Supabase functions for sending email notifications from contact submissions.​
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Project Structure
+src/pages – Top-level pages (hero, sections, contact page wrappers).​
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+src/components – Reusable UI blocks (navigation, feature cards, ContactForm, etc.).​
 
-# Step 3: Install the necessary dependencies.
-npm i
+src/integrations/supabase – Supabase client and integration helpers.​
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+src/context / src/hooks – Shared state and custom hooks used across sections.​
+
+Authentication
+Supabase auth handles sign-up, login, and session management.​
+
+Environment variables store Supabase URL and anon key, loaded in the frontend via Vite.​
+
+Protected logic uses the Supabase client to check current user/session before performing sensitive operations.​
+
+Contact / Get in Touch
+The contact form uses a ContactForm component with name, email, and message fields validated by zod.​
+
+On submit, valid data is inserted into the contacts table in Supabase and then an Edge Function (for example contact-email) sends an email notification to your inbox.​
+
+The UI shows inline validation errors, a loading state (“Sending…”), and a success state (“Sent!”) with toast notifications.​
+
+Getting Started
+Clone the repo and install dependencies:
+
+bash
+git clone https://github.com/Sayan-Official-32/replicarush2.git
+cd replicarush2
+npm install
+Configure environment variables in a .env file for Supabase URL and anon key.​
+
+Start the dev server:
+
+bash
 npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
