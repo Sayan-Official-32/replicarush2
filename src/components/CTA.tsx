@@ -2,6 +2,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowRight, Play, Users, Globe, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const stats = [
   { icon: Users, value: "10K+", label: "Active Users" },
@@ -9,9 +10,14 @@ const stats = [
   { icon: TrendingUp, value: "98%", label: "Satisfaction" },
 ];
 
-const CTA = () => {
+interface CTAProps {
+  onOpenDemo?: () => void;
+}
+
+const CTA = ({ onOpenDemo }: CTAProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const navigate = useNavigate();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -34,7 +40,7 @@ const CTA = () => {
   };
 
   return (
-    <section id="contact" className="py-24 relative overflow-hidden">
+    <section id="cta" className="py-24 relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-secondary/10 animate-gradient" />
@@ -123,6 +129,7 @@ const CTA = () => {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 size="lg"
+                onClick={() => navigate("/auth")}
                 className="bg-gradient-to-r from-primary to-secondary text-primary-foreground font-semibold px-8 py-6 text-lg rounded-full glow-button group"
               >
                 Get Started Free
@@ -133,6 +140,7 @@ const CTA = () => {
               <Button
                 size="lg"
                 variant="outline"
+                onClick={onOpenDemo}
                 className="border-border bg-card/50 text-foreground hover:bg-muted font-semibold px-8 py-6 text-lg rounded-full group"
               >
                 <Play className="mr-2 w-5 h-5 group-hover:scale-110 transition-transform" />
